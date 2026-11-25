@@ -124,6 +124,12 @@ fn main() {
     let mut kelimeler: Vec<String> = Vec::new();
     let mut args = env::args().skip(1);
     while let Some(a) = args.next() {
+        if a == "-h" || a == "--yardim" {
+            println!("Kullanım: piksel-terminal [--renk 0-255] METİN");
+            println!("Metni 5x7 piksel yazı tipiyle terminale basar. Türkçe harfler desteklenir.");
+            println!("Örnek: piksel-terminal --renk 141 DEOKWAVE");
+            return;
+        }
         if a == "--renk" {
             renk = args.next().and_then(|r| r.parse().ok());
         } else {
