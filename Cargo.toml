@@ -1,0 +1,8 @@
+[package]
+name = "piksel-terminal"
+version = "1.0.0"
+edition = "2021"
+description = "Metni 5x7 piksel yazı tipiyle terminale basar"
+publish = false
+
+[dependencies]
