@@ -2,6 +2,7 @@
 // Kullanım: piksel-terminal [--renk 141] METİN
 
 use std::env;
+use std::io::{self, IsTerminal, Read};
 
 #[derive(Clone, Copy)]
 enum Aksan {
@@ -139,6 +140,13 @@ fn main() {
             renk = args.next().and_then(|r| r.parse().ok());
         } else {
             kelimeler.push(a);
+        }
+    }
+    if kelimeler.is_empty() && !io::stdin().is_terminal() {
+        let mut girdi = String::new();
+        if io::stdin().read_to_string(&mut girdi).is_ok() && !girdi.trim().is_empty() {
+            kelimeler.push(girdi.trim().replace('
+', " "));
         }
     }
     let metin = if kelimeler.is_empty() { "DEOKWAVE".to_string() } else { kelimeler.join(" ") };
