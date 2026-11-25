@@ -145,8 +145,7 @@ fn main() {
     if kelimeler.is_empty() && !io::stdin().is_terminal() {
         let mut girdi = String::new();
         if io::stdin().read_to_string(&mut girdi).is_ok() && !girdi.trim().is_empty() {
-            kelimeler.push(girdi.trim().replace('
-', " "));
+            kelimeler.push(girdi.trim().replace('\n', " "));
         }
     }
     let metin = if kelimeler.is_empty() { "DEOKWAVE".to_string() } else { kelimeler.join(" ") };
