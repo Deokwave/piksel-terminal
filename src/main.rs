@@ -121,14 +121,19 @@ fn buyut(metin: &str) -> String {
 
 fn main() {
     let mut renk: Option<u8> = None;
+    let mut dar = false;
     let mut kelimeler: Vec<String> = Vec::new();
     let mut args = env::args().skip(1);
     while let Some(a) = args.next() {
         if a == "-h" || a == "--yardim" {
-            println!("Kullanım: piksel-terminal [--renk 0-255] METİN");
+            println!("Kullanım: piksel-terminal [--renk 0-255] [--dar] METİN");
             println!("Metni 5x7 piksel yazı tipiyle terminale basar. Türkçe harfler desteklenir.");
             println!("Örnek: piksel-terminal --renk 141 DEOKWAVE");
             return;
+        }
+        if a == "--dar" {
+            dar = true;
+            continue;
         }
         if a == "--renk" {
             renk = args.next().and_then(|r| r.parse().ok());
@@ -145,7 +150,12 @@ fn main() {
     for y in 0..HUCRE {
         let satir: String = glifler
             .iter()
-            .map(|g| g[y].chars().map(|c| if c == '#' { "██" } else { "  " }).collect::<String>() + "  ")
+            .map(|g| g[y].chars().map(|c| match (c == '#', dar) {
+                    (true, false) => "██",
+                    (false, false) => "  ",
+                    (true, true) => "█",
+                    (false, true) => " ",
+                }).collect::<String>() + if dar { " " } else { "  " })
             .collect();
         if satir.trim().is_empty() {
             continue;
